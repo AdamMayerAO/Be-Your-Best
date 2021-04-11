@@ -1,25 +1,108 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
+import BybError from './BybError'
 import './App.css';
+import Login from './Login'
+import ChooseTraits from './ChooseTraits'
+import DisplayChosenTraits from './DisplayChosenTraits'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+
+class App extends Component{
+
+  render() {
+    return (
+     // <Context.Provider value={value}>
+        <div className ='AppRoute'>
+          <Router>
+              <Route
+                path = '/reset'
+                component = {ChooseTraits}
+              />
+              <Route 
+                path = '/login'
+                component = {Login}
+              />
+              <Route 
+                path = '/display-chosen-traits'
+                component ={DisplayChosenTraits}
+              />
+          </Router>
+            
+        </div>
+     // </Context.Provider>
+    ) 
+    
+
+  }
+}  
+
 
 export default App;
+
+
+      // <BybContext.Provider value={value}>
+      // <div className = 'App'>  
+      //     <BybError>
+      //       <nav className = 'AppNav'>
+      //         {this.renderNavRoutes()}
+      //       </nav>
+      //     </BybError>
+        
+        
+      //   </div>
+      // </BybContext.Provider>
+
+      // state = {
+      //   checkedTraits: [],
+      // };
+    
+      // handleResetTraits = trait => {
+      //   this.setState({
+      //     traits: [
+      //       ...this.state.traits, 
+      //       trait
+      //     ]
+      //   })
+      // }
+      // handleCheckTrait = (trait) => {
+      //   if(traitsChosen.length<13){  
+      //     if(traitIds.includes(trait.id)){
+      //         traitIds.filter(id => id!==trait.id)
+      //         traitsChosen.filter(choice => choice !==trait)
+      //         this.setState({
+      //           checkedTraits: traitsChosen
+      //         })
+      //       } 
+      //       else 
+      //       {
+      //         traitIds.push(trait.id)
+      //         traitsChosen.push(trait)
+      //       }
+          
+      //       this.setState({
+      //         checkedTraits: traitsChosen
+      //       })
+      //     }
+      //     this.handleClick()
+      // }
+    
+    
+      // handleClick = () => {
+      //   let choices = traitsChosen.length
+      //   if (choices == 13){
+      //     <DisplayChosenTraits
+      //         key = {this.state.id}
+      //         id = {this.state.id}
+      //         name={this.state.name}
+      //         tagline={this.state.tagline}
+      //     />
+      //   }
+      // }
+      // handleAddNote = note => {
+      //   this.setState({
+      //     notes: [
+      //       ...this.state.notes,
+      //       note
+      //     ]
+      //   })
+      // }

@@ -1,0 +1,18 @@
+.counter{
+    position: fixed;
+    height: 20px;
+    width: 158px;
+    color: black;
+    background-color: blanchedalmond;
+    
+    
+}
+
+.go{
+    position: fixed;
+    height: 20px;
+    width: 158px;
+    color: black;
+    background-color: cornflowerblue;
+}
+
