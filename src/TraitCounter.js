@@ -13,16 +13,12 @@ export default function TraitCounter (props){
             )
     } else if (Number(props.length) === 7){
       return (
-          <button 
+          <Link 
           className = "go"
-          onClick = {(e) => {
-            e.preventDefault();
-            <Link to="/display-chosen-traits">Display Chosen Traits</Link>
-          }
-          }//Go to the home page
+          to="/main"
           >
               Let's Begin!
-          </button>
+          </Link>
      )
     }
 } 

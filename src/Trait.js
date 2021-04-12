@@ -9,12 +9,9 @@ export default function Trait(props){
                 <h4 className = 'title'>{props.trait.name}</h4>
                 <p>{props.trait.tagline}</p>   
                 <button
-                    style={{backgroundColor: props.chosen ? "green" : "whitesmoke"}}
-                    type='checkbox'
-                    className='choose-trait'
-                    onClick={() => props.onClick(props.trait)}
+                    type='submit'
+                    className='add-Note'
                 >
-                    {props.chosen ? "Chosen" : "Choose"} this Trait
                 </button>        
             </label>
         </div>

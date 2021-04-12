@@ -7,7 +7,7 @@ let traits = [
     {
         id: 2,
         name: "Patience",
-        tagline: "This moment also is okay"
+        tagline: "This moment too is okay"
     },
     {
         id: 3,

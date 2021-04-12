@@ -1,17 +1,19 @@
 import React, { Component } from 'react'
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
+import {Provider} from 'react-redux';
+import store from "./redux";
 import BybError from './BybError'
 import './App.css';
 import Login from './Login'
 import ChooseTraits from './ChooseTraits'
 import DisplayChosenTraits from './DisplayChosenTraits'
-
+import Homepage from './Homepage'
+import AddNote from './AddNote'
 
 class App extends Component{
-
   render() {
     return (
-     // <Context.Provider value={value}>
+      <Provider store={store}>
         <div className ='AppRoute'>
           <Router>
               <Route
@@ -23,13 +25,21 @@ class App extends Component{
                 component = {Login}
               />
               <Route 
-                path = '/display-chosen-traits'
+                path = '/main'
                 component ={DisplayChosenTraits}
               />
+              <Route
+                path = '/home'
+                component = {Homepage}
+              />
+              <Route 
+              path = '/addnote'
+              component = {AddNote}
+              ></Route>
           </Router>
             
         </div>
-     // </Context.Provider>
+      </Provider>
     ) 
     
 
