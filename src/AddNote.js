@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {useState} from 'react'
 import NoteForm from './NoteForm'
 import BybError from './BybError';
 import ValidationError from './ValidationError'
@@ -8,50 +8,42 @@ import ALLTRAITS from './traits-data'
 
 const AddNote = (props) => {
     const traits = useSelector((state)=>state.traitsReducer.traits);
-
-    // const updateNoteType = (name) => {
-    //     this.setState({ 
-    //         name:{
-    //             value: name, 
-    //             touched: true 
-    //         } 
-    //     })   
-    // }
-    // const updateContent = (content) => {
-    //     this.setState({ 
-    //         content:{
-    //             value: content, 
-    //             touched: true 
-    //         } 
-    //     })   
-    // }
+    const [content, setContent] = useState("")
    
-    const validateName = (textarea) => {
-        // const name = this.state.name.value.trim();
-        // if (name.length === 0) {
-        //   return "Name is required";
-        // } else if (name.length < 3) {
-        //   return "Name must be at least 3 characters long";
-        // }
-    }
-
-    const validateContent = (textarea) => {
-        // const content = this.state.content.value.trim();
-        // if (content.length === 0) {
-        //   return "Please enter content for your note";
-        // }
+    const updateNoteType = (name) => {
+        // this.setState({ 
+        //     name:{
+        //         value: name, 
+        //         touched: true 
+        //     } 
+        // })   
     }
    
+    const updateContent = (text) =>{
+       setContent(text)
+    }
+
+    
+    const validateContent = (contentText) => {
+        if (!content) {
+        return "Please enter content for your note";
+        }
+    }
+
    
 
-    // const handleSubmit = (e) =>{
-    //     e.preventDefault()
-    //     const newNote = {
-    //         title: e.target['note-name'].value,
-    //         contents: e.target['note-content'].value,
-    //         folder: e.target['note-folder-id'].value,
-    //     }
-
+    const handleSubmit = (e) =>{
+       e.preventDefault()
+        console.log("submitted")
+        
+    //         const newNote = {
+    //             title: e.target['note-type'].value,
+    //             contents: e.target['note-content'].value,
+    //             folder: e.target['note-folder-id'].value,
+    //         }
+    //   return newNote
+    }
+//
     //     fetch(`${config.API_ENDPOINT}/notes`, {
     //         method: 'POST',
     //         headers: {
@@ -77,12 +69,12 @@ const AddNote = (props) => {
         <section className = 'AddNote'>
             <h2>Create a Note</h2>
             <BybError>
-            <NoteForm /*onSubmit = {this.handleSubmit}*/>
+            <NoteForm onSubmit = {handleSubmit}>
                 <div className = 'field'>
                     <label htmlFor ='note-name-input'>
                         Name
                     </label>
-                    <select id='note-type' name='note-type' onChange={e => this.updateNoteType(e.target.value)}>
+                    <select id='note-type' name='note-type'>
                         <option value = 'PersonalChallenge'>Personal Challenge</option>
                         <option value = 'Question'>Question</option>
                         <option value = 'Observation'>Observation</option>
@@ -93,7 +85,7 @@ const AddNote = (props) => {
                     <label htmlFor ='note-content-input'>
                         Content
                     </label>
-                    <textarea id='note-content-input' name='note-content' onChange={e => this.updateContent(e.target.value)}/>
+                    <textarea id='note-content-input' name='note-content' onChange={e => updateContent(e.target.value)}/>
                     <ValidationError message = {validateContent()}/>
 
                 </div>
@@ -102,7 +94,7 @@ const AddNote = (props) => {
                         Folder
                     </label>
                     <select id ='note-folder-select' name='note-folder-id'>
-                        <option defaulvalue={props.dailyTrait.name}>{props.dailyTrait.name}</option>
+                        <option value={props.dailyTrait.name}>{props.dailyTrait.name}</option>
                         {ALLTRAITS.map(folder =>
                             <option key={folder.id} value={folder.name}>
                             {folder.name}

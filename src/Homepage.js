@@ -13,11 +13,11 @@ const Homepage = () => {
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1) + min);  
     }
-     const dailyTrait = traits[getRandomIntInclusive(0,6)]
-    //  const dailyTrait = {
-    //     name: "Order",
-    //     tagline: "Stay In Line",
-    //  }
+    // const dailyTrait = traits[getRandomIntInclusive(0,6)]
+     const dailyTrait = {
+        name: "Order",
+        tagline: "Stay In Line",
+     }
     return(
         <div>
             <header className = 'todayHeader'>
