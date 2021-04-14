@@ -8,7 +8,7 @@ import Login from './Login'
 import ChooseTraits from './ChooseTraits'
 import DisplayChosenTraits from './DisplayChosenTraits'
 import Homepage from './Homepage'
-import AddNote from './AddNote'
+import Notes from './AllNotes'
 
 class App extends Component{
   render() {
@@ -33,8 +33,8 @@ class App extends Component{
                 component = {Homepage}
               />
               <Route 
-              path = '/addnote'
-              component = {AddNote}
+              path = '/notes'
+              component = {Notes}
               ></Route>
           </Router>
             

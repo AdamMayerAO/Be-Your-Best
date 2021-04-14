@@ -71,8 +71,8 @@ const AddNote = (props) => {
             <BybError>
             <NoteForm onSubmit = {handleSubmit}>
                 <div className = 'field'>
-                    <label htmlFor ='note-name-input'>
-                        Name
+                    <label htmlFor ='note-type-input'>
+                        Note Type
                     </label>
                     <select id='note-type' name='note-type'>
                         <option value = 'PersonalChallenge'>Personal Challenge</option>

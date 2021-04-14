@@ -1,0 +1,14 @@
+.notes{
+    display: flex;
+    flex-direction: column;
+}
+.folders-list{
+    position: fixed;
+    left: 0;
+    width: 150px;
+    border: 2px solid blue
+}
+.home{
+    position: fixed;
+    bottom: 0;
+}

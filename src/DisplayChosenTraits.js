@@ -5,11 +5,14 @@ import {useSelector, useDispatch} from 'react-redux';
 import {resetTraits} from "./redux/actions/traits";
 import './DisplayChosenTraits.css'
 import Trait from './Trait'
-
+//clicking on a trait will take you to the /notes route and open the folder with the name of the trait clicked on
+//each trait just has its name, on:hover can display the tagline
+    
 const DisplayChosenTraits = (props) => {
   const dispatch = useDispatch();
   const traits = useSelector((state)=>state.traitsReducer.traits);
 
+    
     const handleAddNote = note => {
         this.setState({
           notes: [

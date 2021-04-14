@@ -33,6 +33,11 @@ const Homepage = () => {
                 
 
             </body>
+            <footer>
+                <Link to = 'notes'>See all my Notes</Link><br/>
+                <Link to ='main'>See all my Traits</Link><br/>
+                <Link to = 'reset'>Reset my Traits</Link>
+            </footer>
         </div>
     )
 }
