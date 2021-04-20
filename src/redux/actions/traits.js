@@ -6,6 +6,7 @@ import {
 
 const addTrait = (data) => (
     (dispatch) => {
+        //call the api
         dispatch({
             type: ADD_TRAIT,
             payload: data

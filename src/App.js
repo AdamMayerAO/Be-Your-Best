@@ -1,43 +1,16 @@
 import React, { Component } from 'react'
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 import {Provider} from 'react-redux';
 import store from "./redux";
-import BybError from './BybError'
+import Navigation from "./Navigation";
 import './App.css';
-import Login from './Login'
-import ChooseTraits from './ChooseTraits'
-import DisplayChosenTraits from './DisplayChosenTraits'
-import Homepage from './Homepage'
-import Notes from './AllNotes'
+
 
 class App extends Component{
   render() {
     return (
       <Provider store={store}>
         <div className ='AppRoute'>
-          <Router>
-              <Route
-                path = '/reset'
-                component = {ChooseTraits}
-              />
-              <Route 
-                path = '/login'
-                component = {Login}
-              />
-              <Route 
-                path = '/main'
-                component ={DisplayChosenTraits}
-              />
-              <Route
-                path = '/home'
-                component = {Homepage}
-              />
-              <Route 
-              path = '/notes'
-              component = {Notes}
-              ></Route>
-          </Router>
-            
+          <Navigation />
         </div>
       </Provider>
     ) 

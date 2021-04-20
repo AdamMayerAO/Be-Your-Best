@@ -4,11 +4,13 @@ import BybError from './BybError';
 import ValidationError from './ValidationError'
 import {useDispatch, useSelector} from 'react-redux';
 import ALLTRAITS from './traits-data'
+import config from './config'
 
-
+//after clicking "add Note, I want the Notes page to load"
 const AddNote = (props) => {
     const traits = useSelector((state)=>state.traitsReducer.traits);
     const [content, setContent] = useState("")
+    const [note, setNote] = useState("")
    
     const updateNoteType = (name) => {
         // this.setState({ 
@@ -24,7 +26,7 @@ const AddNote = (props) => {
     }
 
     
-    const validateContent = (contentText) => {
+    const validateContent = () => {
         if (!content) {
         return "Please enter content for your note";
         }
@@ -36,34 +38,34 @@ const AddNote = (props) => {
        e.preventDefault()
         console.log("submitted")
         
-    //         const newNote = {
-    //             title: e.target['note-type'].value,
-    //             contents: e.target['note-content'].value,
-    //             folder: e.target['note-folder-id'].value,
-    //         }
-    //   return newNote
-    }
-//
-    //     fetch(`${config.API_ENDPOINT}/notes`, {
-    //         method: 'POST',
-    //         headers: {
-    //             'content-type': 'application/json'
-    //         },
-    //         body: JSON.stringify(newNote),
-    //     })
-    //     .then(res =>{
-    //         if(!res.ok)
-    //             return res.json().then(e=>Promise.reject(e))
-    //         return res.json()
-    //     })
-    //     .then(note => {
-    //         this.context.addNote(note)
-    //         this.props.history.push(`/folders/${newNote.folder}`)
-    //     })
-    //     .catch(error =>{
-    //         console.error({error})
-    //     })
-    // }        
+        const newNote = {
+                noteType: e.target['note-type'].value,
+                contents: e.target['note-content'].value,
+                folder: e.target['note-folder-id'].value,
+               // user: "Adam"
+            }
+        //return newNote
+    
+        fetch(`${config.API_ENDPOINT}/notes`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(newNote),
+        })
+        .then(res =>{
+            if(!res.ok)
+                return res.json().then(e=>Promise.reject(e))
+            return res.json()
+        })
+        .then(note => {
+            setNote(note)
+           // this.props.history.push(`/notes`)
+        })
+        .catch(error =>{
+            console.error({error})
+        })
+    }        
    
     return(
         <section className = 'AddNote'>
@@ -85,7 +87,7 @@ const AddNote = (props) => {
                     <label htmlFor ='note-content-input'>
                         Content
                     </label>
-                    <textarea id='note-content-input' name='note-content' onChange={e => updateContent(e.target.value)}/>
+                    <textarea id='note-content' name='note-content' onChange={e => updateContent(e.target.value)}/>
                     <ValidationError message = {validateContent()}/>
 
                 </div>
