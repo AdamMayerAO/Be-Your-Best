@@ -10,7 +10,7 @@ import Trait from './Trait'
     
 const DisplayChosenTraits = (props) => {
   const dispatch = useDispatch();
-  const traits = useSelector((state)=>state.traitsReducer.traits);
+  const traits = useSelector((state)=>state.traitsReducer.userTraits);
 
     
     const handleAddNote = note => {

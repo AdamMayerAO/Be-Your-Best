@@ -1,33 +1,52 @@
 import {
     ADD_TRAIT,
     REMOVE_TRAIT,
-    RESET_TRAITS
+    RESET_TRAITS,
+    IS_FETCHING_ALL_TRAITS,
+    FETCHED_ALL_TRAITS
 } from "../constants";
 
 const initialState = {
-    traits: []
+    allTraits: [],
+    userTraits: [],
+    isFetchingAllTraits: false
 };
 
 export default (state=initialState, action) => {
     switch (action.type) {
+        case FETCHED_ALL_TRAITS: {
+            return {
+                ...state,
+                allTraits: action.payload,
+                isFetchingAllTraits: false
+            };
+        }
+
+        case IS_FETCHING_ALL_TRAITS: {
+            return {
+                ...state,
+                isFetchingAllTraits: action.payload
+            }
+        }
+        
         case ADD_TRAIT: {
             return {
                 ...state,
-                traits: [...state.traits, action.payload.trait]
+                userTraits: [...state.userTraits, action.payload.trait]
             };
         }
 
         case REMOVE_TRAIT: {
             return {
                 ...state,
-                traits: state.traits.filter((trait)=>trait.id!==action.payload.trait.id)
+                userTraits: state.userTraits.filter((trait)=>trait.id!==action.payload.trait.id)
             };
         }
 
         case RESET_TRAITS: {
             return {
                 ...state,
-                traits: []
+                userTraits: []
             };
         }
     

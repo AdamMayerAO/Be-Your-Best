@@ -26,6 +26,7 @@ const isFetching = (status) => {
 }
 
 const fetchUser = () => ((dispatch)=>{
+    console.log("Fetching user.....");
     dispatch(isFetching(true));
     APIClient.get("/user/get").then((response)=>{
         console.log("\n\nFetch User Response: ", response, "\n\n")

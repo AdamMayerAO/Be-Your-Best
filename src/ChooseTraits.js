@@ -1,14 +1,24 @@
-import React, {useState} from 'react';
-import allTraits from './traits-data';
+import React, {useEffect, useState} from 'react';
+//mport allTraits from './traits-data';
 import Choose from './Choose';
 import {useDispatch, useSelector} from 'react-redux';
 import TraitCounter from './TraitCounter';
 import "./ChooseTraits.css";
-import { addTrait, removeTrait } from './redux/actions/traits';
+import {
+  addTrait,
+  removeTrait,
+  fetchAllTraits
+} from './redux/actions/traits';
 
 const ChooseTraits = (props) => {
   const dispatch = useDispatch();
-  const traits = useSelector((state)=>state.traitsReducer.traits);
+  const traits = useSelector((state)=>state.traitsReducer.userTraits);
+  const allTraits = useSelector((state)=>state.traitsReducer.allTraits);
+  const isFetchingAllTraits = useSelector((state)=>state.traitsReducer.isFetchingAllTraits);
+
+  useEffect(()=>{
+    dispatch(fetchAllTraits());
+  }, []);
 
   const handleCheckTrait = (trait) => {
     
@@ -31,15 +41,21 @@ const ChooseTraits = (props) => {
             length = {traits.length} />
           </div>
           <div className='App-list'>
-            {allTraits.map(trait => (
-              <Choose
-                key = {trait.id}
-                id = {trait.id}
-                trait={trait}
-                chosen={traits.filter((t)=>t.id===trait.id).length}
-                onClick = {handleCheckTrait}
-              />
-            ))}
+            {
+              isFetchingAllTraits
+                ?
+                  <p>Fetching traits...</p>
+                :
+                  allTraits.map(trait => (
+                    <Choose
+                      key = {trait.id}
+                      id = {trait.id}
+                      trait={trait}
+                      chosen={traits.filter((t)=>t.id===trait.id).length}
+                      onClick = {handleCheckTrait}
+                    />
+                  ))
+            }
           </div>
       </main>
     );

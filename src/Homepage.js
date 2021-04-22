@@ -6,7 +6,7 @@ import AddNote from './AddNote';
 
 
 const Homepage = () => {
-    const traits = useSelector((state)=>state.traitsReducer.traits);
+    const traits = useSelector((state)=>state.traitsReducer.userTraits);
    
     const getRandomIntInclusive = (min, max) => {
         min = Math.ceil(min);

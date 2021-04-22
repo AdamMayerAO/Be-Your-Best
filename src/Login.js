@@ -53,6 +53,7 @@ export default (props) => {
             dispatch(login(data, (token)=>{
                 setJwtTokenInHeaders(token);
                 localStorage.setItem('accessToken', token);
+                props.history.push('/reset');
             }));
         }
         //verify and match credentials

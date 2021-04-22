@@ -1,8 +1,42 @@
+import APIClient from "../../services";
+import {
+    showToast
+} from "../../utils";
 import {
     ADD_TRAIT,
     REMOVE_TRAIT,
-    RESET_TRAITS
+    RESET_TRAITS,
+    FETCHED_ALL_TRAITS,
+    IS_FETCHING_ALL_TRAITS
 } from "../constants";
+
+const isFetchingAllTraits = (status) => {
+    return ({
+        type: IS_FETCHING_ALL_TRAITS,
+        payload: status
+    });
+}
+
+const fetchAllTraits = () => (
+    (dispatch) => {
+        dispatch(isFetchingAllTraits(true));
+        APIClient.get("/traits/all").then((response)=>{
+            if(response.status == 200) {
+                dispatch({
+                    type: FETCHED_ALL_TRAITS,
+                    payload: response.data.traits
+                });
+            } else {
+                dispatch(isFetchingAllTraits(false));
+                showToast(response.data.message, "error");
+            }
+        }).catch((error)=>{
+            dispatch(isFetchingAllTraits(false));
+            showToast(error, "error");
+            console.log({error});
+        })
+    }
+)
 
 const addTrait = (data) => (
     (dispatch) => {
@@ -34,5 +68,6 @@ const resetTraits = () => (
 export {
     addTrait,
     removeTrait,
+    fetchAllTraits,
     resetTraits
 };

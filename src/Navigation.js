@@ -44,6 +44,8 @@ export default (props)=>{
         }
     }
 
+    if(isFetching) return (<center>Loading...</center>);
+
     return( 
         <Router>
             <Route 

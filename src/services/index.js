@@ -5,7 +5,7 @@ const APIClient = axios.create({
 });
 
 export const setJwtTokenInHeaders = (token) => {
-    APIClient.defaults.headers.common['Authorization'] = token;
+    APIClient.defaults.headers.common['Authorization'] = `${token}`;
 }
 
 export default APIClient;
