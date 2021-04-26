@@ -7,6 +7,7 @@ import "./ChooseTraits.css";
 import {
   addTrait,
   removeTrait,
+  fetchUserTraits,
   fetchAllTraits
 } from './redux/actions/traits';
 
@@ -18,6 +19,12 @@ const ChooseTraits = (props) => {
 
   useEffect(()=>{
     dispatch(fetchAllTraits());
+  }, []);
+
+  useEffect(()=>{
+    if(!traits.length) {
+      dispatch(fetchUserTraits());
+    }
   }, []);
 
   const handleCheckTrait = (trait) => {

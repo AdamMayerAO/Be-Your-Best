@@ -3,6 +3,7 @@ import {
     REMOVE_TRAIT,
     RESET_TRAITS,
     IS_FETCHING_ALL_TRAITS,
+    FETCHED_USER_TRAITS,
     FETCHED_ALL_TRAITS
 } from "../constants";
 
@@ -19,6 +20,13 @@ export default (state=initialState, action) => {
                 ...state,
                 allTraits: action.payload,
                 isFetchingAllTraits: false
+            };
+        }
+
+        case FETCHED_USER_TRAITS: {
+            return {
+                ...state,
+                userTraits: action.payload
             };
         }
 

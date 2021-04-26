@@ -7,7 +7,8 @@ import {
     REMOVE_TRAIT,
     RESET_TRAITS,
     FETCHED_ALL_TRAITS,
-    IS_FETCHING_ALL_TRAITS
+    IS_FETCHING_ALL_TRAITS,
+    FETCHED_USER_TRAITS
 } from "../constants";
 
 const isFetchingAllTraits = (status) => {
@@ -38,22 +39,63 @@ const fetchAllTraits = () => (
     }
 )
 
+
+const fetchUserTraits = (onSuccess=()=>{}) => (
+    (dispatch) => {
+        dispatch(isFetchingAllTraits(true));
+        APIClient.get("/traits/user-traits").then((response)=>{
+            if(response.status == 200) {
+                console.log("\n\n User Traits: ", response.data.userTraits, "\n\n");
+                dispatch({
+                    type: FETCHED_USER_TRAITS,
+                    payload: response.data.userTraits
+                });
+                onSuccess(response.data.userTraits);
+            } else {
+                dispatch(isFetchingAllTraits(false));
+                showToast(response.data.message, "error");
+            }
+        }).catch((error)=>{
+            dispatch(isFetchingAllTraits(false));
+            showToast(error, "error");
+            console.log({error});
+        })
+    }
+)
+
 const addTrait = (data) => (
     (dispatch) => {
-        //call the api
-        dispatch({
-            type: ADD_TRAIT,
-            payload: data
-        });
+        APIClient.post("/traits/add-user-trait", data).then((response)=>{
+            if(response.status === 201) {
+                dispatch({
+                    type: ADD_TRAIT,
+                    payload: data
+                });
+            } else {
+                showToast(response.data.message, "error");
+            }
+        }).catch((error) => {
+            showToast(error, "error");
+            console.log({error});
+        })
     }
 )
 
 const removeTrait = (data) => (
     (dispatch) => {
-        dispatch({
-            type: REMOVE_TRAIT,
-            payload: data
-        });
+        APIClient.post("/traits/remove-user-trait", data).then((response)=>{
+            if(response.status === 200) {
+                dispatch({
+                    type: REMOVE_TRAIT,
+                    payload: data
+                });
+            } else {
+                showToast(response.data.message, "error");
+            }
+        }).catch((error) => {
+            showToast(error, "error");
+            console.log({error});
+        })
     }
 )
 
@@ -69,5 +111,6 @@ export {
     addTrait,
     removeTrait,
     fetchAllTraits,
+    fetchUserTraits,
     resetTraits
 };

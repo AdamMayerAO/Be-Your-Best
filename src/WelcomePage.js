@@ -1,9 +1,22 @@
-import React from 'react'
+import React, {useEffect} from 'react';
+import {useDispatch} from 'react-redux';
 import logo from './logo.jpg'
 import {Link} from 'react-router-dom';
+import {fetchUserTraits} from "./redux/actions/traits";
 import './Login.css'
 
-const WelcomePage = () =>{
+const WelcomePage = (props) =>{
+    const dispatch = useDispatch();
+    useEffect(()=>{
+        dispatch(fetchUserTraits((traits)=>{
+            if(traits.length){
+                props.history.push("/home");
+            } else {
+                props.history.push("/reset")
+            }
+        }));
+    }, []);
+
     return(
         <div> 
             <header>

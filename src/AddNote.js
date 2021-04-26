@@ -2,24 +2,24 @@ import React, {useState} from 'react'
 import NoteForm from './NoteForm'
 import BybError from './BybError';
 import ValidationError from './ValidationError'
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import ALLTRAITS from './traits-data'
 import config from './config'
 
 //after clicking "add Note, I want the Notes page to load"
 const AddNote = (props) => {
-    const traits = useSelector((state)=>state.traitsReducer.traits);
+    //const traits = useSelector((state)=>state.traitsReducer.traits);
     const [content, setContent] = useState("")
-    const [note, setNote] = useState("")
+    //const [note, setNote] = useState("")
    
-    const updateNoteType = (name) => {
+   // const updateNoteType = (name) => {
         // this.setState({ 
         //     name:{
         //         value: name, 
         //         touched: true 
         //     } 
         // })   
-    }
+    // }
    
     const updateContent = (text) =>{
        setContent(text)
@@ -59,7 +59,7 @@ const AddNote = (props) => {
             return res.json()
         })
         .then(note => {
-            setNote(note)
+          //  setNote(note)
            // this.props.history.push(`/notes`)
         })
         .catch(error =>{
@@ -96,7 +96,7 @@ const AddNote = (props) => {
                         Folder
                     </label>
                     <select id ='note-folder-select' name='note-folder-id'>
-                        <option value={props.dailyTrait.name}>{props.dailyTrait.name}</option>
+                        <option value={props.dailyTrait?.name}>{props.dailyTrait?.name}</option>
                         {ALLTRAITS.map(folder =>
                             <option key={folder.id} value={folder.name}>
                             {folder.name}
