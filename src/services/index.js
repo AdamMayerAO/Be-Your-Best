@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const APIClient = axios.create({
-    baseURL: 'http://localhost:8000'
+    baseURL: ''
 });
 
 export const setJwtTokenInHeaders = (token) => {

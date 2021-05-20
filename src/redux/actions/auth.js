@@ -89,24 +89,11 @@ const signup = (data) => ((dispatch)=>{
     })
 })
 
-const logout = (data) => ((dispatch)=>{
-    dispatch(isPosting(true));
-    APIClient.post("/user/logout", data).then((response)=>{
-        if(response.status == 200) {
-            dispatch({
-                type: LOGOUT,
-                payload: data
-            });
-            showToast(response.data.message, "success");
-        } else {
-            dispatch(isPosting(false));
-            showToast(response.data.message, "error");
-        }
-    }).catch((error)=>{
-        dispatch(isPosting(false));
-        showToast(error, "error");
-        console.log({error});
-    })
+const logout = () => ((dispatch)=>{
+    //dispatch(isPosting(true));
+    dispatch({
+        type: LOGOUT
+    });
 })
 
 export {

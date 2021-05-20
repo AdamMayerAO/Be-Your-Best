@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 //mport allTraits from './traits-data';
 import Choose from './Choose';
 import {useDispatch, useSelector} from 'react-redux';

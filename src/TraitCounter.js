@@ -1,6 +1,6 @@
 import React from 'react'
 import './TraitCounter.css'
-import { Route, Link, BrowserRouter as Router, NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 
 export default function TraitCounter (props){

@@ -34,7 +34,6 @@ const fetchAllTraits = () => (
         }).catch((error)=>{
             dispatch(isFetchingAllTraits(false));
             showToast(error, "error");
-            console.log({error});
         })
     }
 )
@@ -45,7 +44,6 @@ const fetchUserTraits = (onSuccess=()=>{}) => (
         dispatch(isFetchingAllTraits(true));
         APIClient.get("/traits/user-traits").then((response)=>{
             if(response.status == 200) {
-                console.log("\n\n User Traits: ", response.data.userTraits, "\n\n");
                 dispatch({
                     type: FETCHED_USER_TRAITS,
                     payload: response.data.userTraits
@@ -58,7 +56,6 @@ const fetchUserTraits = (onSuccess=()=>{}) => (
         }).catch((error)=>{
             dispatch(isFetchingAllTraits(false));
             showToast(error, "error");
-            console.log({error});
         })
     }
 )

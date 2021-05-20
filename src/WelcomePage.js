@@ -9,6 +9,7 @@ const WelcomePage = (props) =>{
     const dispatch = useDispatch();
     useEffect(()=>{
         dispatch(fetchUserTraits((traits)=>{
+            console.log({traits})
             if(traits.length){
                 props.history.push("/home");
             } else {

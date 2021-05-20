@@ -6,48 +6,84 @@
 //the user should be able to click on the note to expand it to see all the content, then have the options to edit, delete, (share?)
 //there should also be an *add note* button that would load the Create-A-Note form from '/home' 
 //GET allNotes 
-import React, {useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import './Homepage.css'
-import { Route, Link, BrowserRouter as Router, NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import ALLTRAITS from './traits-data'
 import DisplayNotes from './DisplayNotes'
 import './AllNotes.css'
+import {fetchFolders} from './redux/actions/folders';
+import {fetchNotesByFolder, searchNotes} from './redux/actions/notes';
 
 const AllNotes = () =>{
-    
-    const folders  = ALLTRAITS.map(folder => folder.name)
-    
+    const dispatch = useDispatch();
+    const folders = useSelector((state) =>state.foldersReducer.folders);
+    const notes = useSelector((state)=>state.notesReducer.notes);
+    const isFetchingNotes = useSelector((state)=>state.notesReducer.isFetchingNotes);
+    const isFetchingFolders = useSelector((state)=>state.foldersReducer.isFetchingFolders);
+    const [activeFolder, setActiveFolder] = useState("");
+    const [keyword, setKeyword] = useState("")
+
+
+    useEffect(() => {
+        dispatch(fetchFolders());
+    }, []);
+
+    const handleOnFolderClick = (folderId, folderName) => {
+        const data = {folderId};
+        console.log({data});
+        setActiveFolder(folderName);
+        dispatch(fetchNotesByFolder(data));
+    }
+    const searchAllNotes = () =>{
+        dispatch(searchNotes({keyword}))
+    }
+  
     return(
         <div>
             <header>
                 <h2> My Notes</h2>
-                <form className = 'search-bar'>
-                    <div>
-                    <label htmlFor="search">Search My Notes</label><br/>
-                    <input type="text" name='search' id='search' placeholder='search' />
-                    </div>
+                <div>
+                <label htmlFor="search">Keyword Search - Search My Notes</label><br/>
+                <input type="text" name='search' id='search' placeholder='search' value = {keyword} onChange = {(e)=>setKeyword(e.target.value)} />
+                </div>
 
-                    <button 
-                    type='submit'
-                    
-                    >Search</button>
-               
-
-                </form>
+                <button onClick ={searchAllNotes}>Search</button>
             </header>
-            <div className = 'notes'>
-                <div >
-                    <ul className= 'folders-list'>
-                    {folders.map(folder => <li>{folder}</li>)}
+            <div className = 'display'>
+                <div className = 'folders-list'>
+                    <ul >
+                        {
+                            isFetchingFolders
+                                ?
+                                    <span style={{margin: 15}}>loading...</span>
+                                :
+                                    folders.map((folder, idx)=>(
+                                        <li className = "folders"onClick={()=>handleOnFolderClick(folder.id, folder.name)} key = {idx}>{folder.name}</li>
+                                    ))
+                        }
                     </ul>    
                 </div>  
-            <div className = 'displayNotes'>
-                <DisplayNotes></DisplayNotes>
+                <div className = 'displayNotes'>
+                    <DisplayNotes
+                        isFetching={isFetchingNotes}
+                        notes={notes}
+                        folderName = {activeFolder}
+                    />
+                </div>
             </div>
             
-            <Link className='home' to = 'home'>Home</Link>
-
+           
+            <div>
+                <Link className='home' to = 'home'>
+                    <button>Home</button>
+                </Link>
+            </div>
+            <div>
+                <Link to = '/home'>
+                    <button>Would you like to add a note?</button>
+                </Link>
             </div>
         </div>
     )

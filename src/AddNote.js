@@ -1,105 +1,91 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import NoteForm from './NoteForm'
 import BybError from './BybError';
-import ValidationError from './ValidationError'
-import {useSelector} from 'react-redux';
+//import ValidationError from './ValidationError'
+import {useDispatch, useSelector} from 'react-redux';
 import ALLTRAITS from './traits-data'
-import config from './config'
+import {addNote} from './redux/actions/notes'
+import {fetchFolders} from './redux/actions/folders'
 
 //after clicking "add Note, I want the Notes page to load"
+
 const AddNote = (props) => {
-    //const traits = useSelector((state)=>state.traitsReducer.traits);
-    const [content, setContent] = useState("")
-    //const [note, setNote] = useState("")
-   
-   // const updateNoteType = (name) => {
-        // this.setState({ 
-        //     name:{
-        //         value: name, 
-        //         touched: true 
-        //     } 
-        // })   
-    // }
-   
-    const updateContent = (text) =>{
-       setContent(text)
-    }
+    const dispatch = useDispatch();
+    const folders = useSelector((state)=>state.foldersReducer.folders);
+    const isFetchingFolders = useSelector((state)=>state.foldersReducer.isFetchingFolders);
+    const [noteType, setNoteType] = useState("PersonalChallenge");
+    const [contents, setContents] = useState("");
+    const [folderId, setFolderId] = useState(null);
 
-    
-    const validateContent = () => {
-        if (!content) {
-        return "Please enter content for your note";
+    useEffect(()=>{
+        if(!folders.length) {
+            dispatch(fetchFolders());
+        } else {
+            if(props.dailyTrait.hasOwnProperty("name")) {
+                const folder = folders.filter(f=>f.name.toLowerCase()===props.dailyTrait.name.toLowerCase());
+                if(folder.length) {
+                    setFolderId(folder[0].id);
+                } 
+            } else {
+                setFolderId(folders[0].id);
+            }
         }
-    }
+    }, [folders, props.dailyTrait.name]);
 
-   
 
     const handleSubmit = (e) =>{
-       e.preventDefault()
+        e.preventDefault()
         console.log("submitted")
         
         const newNote = {
-                noteType: e.target['note-type'].value,
-                contents: e.target['note-content'].value,
-                folder: e.target['note-folder-id'].value,
-               // user: "Adam"
-            }
-        //return newNote
-    
-        fetch(`${config.API_ENDPOINT}/notes`, {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(newNote),
-        })
-        .then(res =>{
-            if(!res.ok)
-                return res.json().then(e=>Promise.reject(e))
-            return res.json()
-        })
-        .then(note => {
-          //  setNote(note)
-           // this.props.history.push(`/notes`)
-        })
-        .catch(error =>{
-            console.error({error})
-        })
+            noteType,
+            contents,
+            folderId
+        };
+        console.log({newNote})
+        dispatch(addNote(newNote))
+        window.alert("Note Added!")
+        document.getElementById("AddNote").reset();
+
     }        
    
     return(
         <section className = 'AddNote'>
             <h2>Create a Note</h2>
             <BybError>
-            <NoteForm onSubmit = {handleSubmit}>
+            <NoteForm id = "AddNote" onSubmit={handleSubmit}>
                 <div className = 'field'>
                     <label htmlFor ='note-type-input'>
                         Note Type
                     </label>
-                    <select id='note-type' name='note-type'>
-                        <option value = 'PersonalChallenge'>Personal Challenge</option>
-                        <option value = 'Question'>Question</option>
-                        <option value = 'Observation'>Observation</option>
-                        <option value = 'Comment'>Comment</option>  
+                    <select
+                        onChange={e => setNoteType(e.target.value)}
+                        id='note-type' name='note-type'
+                    >
+                        <option selected={noteType==='PersonalChallenge'} value='PersonalChallenge'>Personal Challenge</option>
+                        <option selected={noteType==='Question'} value='Question'>Question</option>
+                        <option selected={noteType==='Observation'} value='Observation'>Observation</option>
+                        <option selected={noteType==='Comment'} value='Comment'>Comment</option>  
                     </select>
                 </div>
                 <div className = 'field'>
                     <label htmlFor ='note-content-input'>
                         Content
                     </label>
-                    <textarea id='note-content' name='note-content' onChange={e => updateContent(e.target.value)}/>
-                    <ValidationError message = {validateContent()}/>
+                    <textarea required id='note-content' name='note-content' onChange={e => setContents(e.target.value)}/>
 
                 </div>
                 <div className = 'field'>
                     <label htmlFor= 'note-folder-select'>
                         Folder
                     </label>
-                    <select id ='note-folder-select' name='note-folder-id'>
-                        <option value={props.dailyTrait?.name}>{props.dailyTrait?.name}</option>
-                        {ALLTRAITS.map(folder =>
-                            <option key={folder.id} value={folder.name}>
-                            {folder.name}
+                    <select
+                        id ='note-folder-select' name='note-folder-id'
+                        onChange={e => setFolderId(e.target.value)}
+                    >
+                        {folders.map(folder =>
+                            <option selected={folder.id===folderId} key={folder.id} value={folder.id} >
+                                {folder.name}
                             </option>
                         )}
 
@@ -109,9 +95,6 @@ const AddNote = (props) => {
                 <div className = 'buttons'>
                     <button 
                         type = 'submit'
-                        disabled={
-                            validateContent()
-                        }
                     >
                         Add note
                     </button>

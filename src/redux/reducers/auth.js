@@ -48,8 +48,12 @@ export default (state=initState, action) => {
             };
         }
 
-        case LOGOUT:
-            return initState;
+        case LOGOUT: {
+            return {
+                ...initState,
+                isFetching: false
+            };
+        }
     
         default:
             return state;

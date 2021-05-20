@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import './Homepage.css'
-import { Route, Link, BrowserRouter as Router, NavLink } from 'react-router-dom'
+import { Link} from 'react-router-dom'
 import AddNote from './AddNote';
 import {fetchUserTraits} from "./redux/actions/traits";
+import {logout} from "./redux/actions/auth";
+import {setJwtTokenInHeaders} from "./services";
 
 
 const Homepage = (props) => {
@@ -13,9 +15,30 @@ const Homepage = (props) => {
 
     useEffect(()=>{
         if(!traits.length) {
-            dispatch(fetchUserTraits());
-        } else {
-            setDailyTrait(traits[getRandomIntInclusive(0,6)]);
+            dispatch(fetchUserTraits((traits)=>{
+                if(!traits.length) {
+                    props.history.push("/reset");
+                }
+            }));
+        }
+    }, []);
+
+    useEffect(()=>{
+        if(traits.length){
+            const traitDetails = JSON.parse(localStorage.getItem('dailyTrait'));
+            if (!traitDetails || traitDetails.timestamp < new Date()){
+                const dT = traits[getRandomIntInclusive(0,6)];
+                const data = {
+                    ...dT,
+                    timestamp: new Date(new Date().setHours(23,59,59,0))
+                };
+                localStorage.setItem('dailyTrait', JSON.stringify(data));
+                setDailyTrait(dT);
+            } else{
+                delete traitDetails["timestamp"];
+                setDailyTrait(traitDetails); 
+                console.log({traitDetails});
+            }
         }
     }, [traits]);
 
@@ -24,14 +47,21 @@ const Homepage = (props) => {
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1) + min);  
     }
-   
-    //  const dailyTrait = {
-    //     name: "Order",
-    //     tagline: "Stay In Line",
-    //  }
 
+    const handleOnPressLogout = () => {
+        localStorage.removeItem("accessToken");
+        setJwtTokenInHeaders(null);
+        dispatch(logout());
+    }
+   
     return(
         <div>
+            <div
+                onClick={handleOnPressLogout}
+                style={{float: "right", margin: 20, cursor: "pointer"}}
+            >
+                <b>Logout</b>
+            </div>
             <header className = 'todayHeader'>
                 <h1>Today is a Good Day for: <br/>
                 {dailyTrait?.name}</h1>
@@ -39,11 +69,7 @@ const Homepage = (props) => {
                 <h4>What can you do to have more {dailyTrait?.name} today? </h4>
             </header>
             <body>
-                <AddNote 
-                dailyTrait = {dailyTrait}
-                >Add a Note</AddNote>
-                
-
+                <AddNote dailyTrait = {dailyTrait}>Add a Note</AddNote>
             </body>
             <footer>
                 <Link to = 'notes'>See all my Notes</Link><br/>

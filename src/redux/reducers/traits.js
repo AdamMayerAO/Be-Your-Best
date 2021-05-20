@@ -4,7 +4,8 @@ import {
     RESET_TRAITS,
     IS_FETCHING_ALL_TRAITS,
     FETCHED_USER_TRAITS,
-    FETCHED_ALL_TRAITS
+    FETCHED_ALL_TRAITS,
+    LOGOUT
 } from "../constants";
 
 const initialState = {
@@ -57,8 +58,11 @@ export default (state=initialState, action) => {
                 userTraits: []
             };
         }
+
+        case LOGOUT:
+            return initialState;
     
         default:
-            return initialState;
+            return state;
     }
 }

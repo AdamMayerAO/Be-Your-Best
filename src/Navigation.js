@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import { Route, Link, Redirect, BrowserRouter as Router } from 'react-router-dom'
-import BybError from './BybError';
+import { Route, Redirect, BrowserRouter as Router } from 'react-router-dom'
+//import BybError from './BybError';
 import Login from './Login'
 import ChooseTraits from './ChooseTraits'
 import DisplayChosenTraits from './DisplayChosenTraits'

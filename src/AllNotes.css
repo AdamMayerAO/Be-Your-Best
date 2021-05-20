@@ -1,13 +1,30 @@
-.notes{
-    display: flex;
-    flex-direction: column;
+.display{
+    display: flex; 
+    justify-content: space-around;
+    flex-wrap: wrap;
+   
 }
 .folders-list{
     position: fixed;
     left: 0;
-    width: 150px;
+    flex-grow: 0;
+    /* width: 150px; */
+    padding-right: 10px;
     border: 2px solid blue
 }
+.folders{
+    list-style-type: none;
+   
+}
+
+.displayNotes{
+    flex-grow: .7;
+    padding-left: 10px;
+    
+    margin-bottom: 2%; /* (100-32*3)/2 */
+    border: 2px solid blue
+}
+
 .home{
     position: fixed;
     bottom: 0;

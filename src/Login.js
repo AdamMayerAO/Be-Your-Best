@@ -30,17 +30,6 @@ export default (props) => {
             };
             dispatch(signup(data));
         }
-        //Verify - all fields filled in, check that there is no one else with that email
-        //if(!first-name)
-        //if(!last-name)
-        //if(email.includes "@")
-        //if(!newPassword)
-        //if(repeatPassword !=== newPassword)
-
-        
-        //POST - save their credentials
-        //send user feedback: welcome! - 
-        //load the '/reset' Route
     }
 
     const handleSubmitLogin = (e) => {
@@ -53,15 +42,10 @@ export default (props) => {
             dispatch(login(data, (token)=>{
                 setJwtTokenInHeaders(token);
                 localStorage.setItem('accessToken', token);
-                props.history.push('/reset');
+                props.history.push('/home');
             }));
         }
-        //verify and match credentials
-        //GET request for their chosen traits and saved notes - set REDUX state
-        //load the '/home' Route
     }
-    //add user reducer so that all the traits and notes are linked to the user
-    //fetch users from database
     
     return(
         <section>
@@ -74,14 +58,14 @@ export default (props) => {
                     <div>Welcome Back!</div>
                     <label htmlFor ='email'>Email:</label>
                     <input
-                        type='email' name='email' id='email' value={email}
+                        type='email' required name='email' id='email' value={email}
                         onChange={(e)=>{setEmail(e.target.value)}}
                     />
                 </div>
                 <div className = 'password'>
                     <label htmlFor ='password'>Password:</label>
                     <input
-                        type='password' name='password' id ='password' value={password}
+                        type='password' required name='password' id ='password' value={password}
                         onChange={(e)=>{setPassword(e.target.value)}}
                     />
                 </div>
@@ -104,28 +88,28 @@ export default (props) => {
                 <div>
                 <label htmlFor="last-name">Last name</label>
                 <input
-                    type="text" name='last-name' id='last-name' placeholder='Last Name' value={lastName}
+                    type="text" required name='last-name' id='last-name' placeholder='Last Name' value={lastName}
                     onChange={(e)=>{setLastName(e.target.value)}}
                 />
                 </div>
                 <div>
                 <label htmlFor="username">Email</label>
                 <input
-                    type="email" name='username' id='username' value={regEmail}
+                    type="email" required name='username' id='username' value={regEmail}
                     onChange={(e)=>{setRegEmail(e.target.value)}}
                 />
                 </div>
                 <div>
                 <label htmlFor="newPassword">Password</label>
                 <input
-                    type="password" name='newPassword' id='newPassword' value={regPassword}
+                    type="password" required name='newPassword' id='newPassword' value={regPassword}
                     onChange={(e)=>{setRegPassword(e.target.value)}}
                 />
                 </div>
                 <div>
                 <label htmlFor="repeatPassword">Repeat Password</label>
                 <input
-                    type="text" name='repeatPassword' id='repeatPassword' value={regRePassword}
+                    type="text" required name='repeatPassword' id='repeatPassword' value={regRePassword}
                     onChange={(e)=>{setRegRePassword(e.target.value)}}
                 />
                 </div>
