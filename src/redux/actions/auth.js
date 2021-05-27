@@ -25,12 +25,12 @@ const isFetching = (status) => {
     };
 }
 
-const fetchUser = () => ((dispatch)=>{
+const fetchUser = () => ((dispatch) => {
     console.log("Fetching user.....");
     dispatch(isFetching(true));
-    APIClient.get("/user/get").then((response)=>{
+    APIClient.get("/user/get").then((response) => {
         console.log("\n\nFetch User Response: ", response, "\n\n")
-        if(response.status == 200) {
+        if (response.status == 200) {
             dispatch({
                 type: FETCH_USER,
                 payload: response.data.user
@@ -39,18 +39,23 @@ const fetchUser = () => ((dispatch)=>{
             dispatch(isFetching(false));
             showToast(response.data.message, "error");
         }
-    }).catch((error)=>{
+    }).catch((error) => {
+        if ((error + "").includes('401')) {
+            showToast("Please log in")
+        } else {
+           
+            showToast(error, "error");
+            console.log({ error });
+        }
         dispatch(isFetching(false));
-        showToast(error, "error");
-        console.log({error});
     })
 })
 
-const login = (data, onSuccess=()=>{}, onError=()=>{}) => ((dispatch)=>{
+const login = (data, onSuccess = () => { }, onError = () => { }) => ((dispatch) => {
     dispatch(isPosting(true));
-    APIClient.post("/user/login", data).then((response)=>{
+    APIClient.post("/user/login", data).then((response) => {
         console.log("\n\nLogin Response: ", response, "\n\n")
-        if(response.status == 200) {
+        if (response.status == 200) {
             dispatch({
                 type: LOGIN,
                 payload: data
@@ -61,17 +66,17 @@ const login = (data, onSuccess=()=>{}, onError=()=>{}) => ((dispatch)=>{
             dispatch(isPosting(false));
             showToast(response.data.message, "error");
         }
-    }).catch((error)=>{
+    }).catch((error) => {
         dispatch(isPosting(false));
         showToast(error, "error");
-        console.log({error});
+        console.log({ error });
     })
 })
 
-const signup = (data) => ((dispatch)=>{
+const signup = (data) => ((dispatch) => {
     dispatch(isPosting(true));
-    APIClient.post("/user/signup", data).then((response)=>{
-        if(response.status == 201) {
+    APIClient.post("/user/signup", data).then((response) => {
+        if (response.status == 201) {
             // dispatch({
             //     type: SIGNUP,
             //     payload: data
@@ -82,14 +87,14 @@ const signup = (data) => ((dispatch)=>{
             dispatch(isPosting(false));
             showToast(response.data.message, "error");
         }
-    }).catch((error)=>{
+    }).catch((error) => {
         dispatch(isPosting(false));
         showToast(error, "error");
-        console.log({error});
+        console.log({ error });
     })
 })
 
-const logout = () => ((dispatch)=>{
+const logout = () => ((dispatch) => {
     //dispatch(isPosting(true));
     dispatch({
         type: LOGOUT

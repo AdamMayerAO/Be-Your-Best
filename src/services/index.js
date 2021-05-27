@@ -1,7 +1,8 @@
 import axios from 'axios';
+import config from '../config'
 
 const APIClient = axios.create({
-    baseURL: ''
+    baseURL: config.API_ENDPOINT
 });
 
 export const setJwtTokenInHeaders = (token) => {
