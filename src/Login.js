@@ -48,8 +48,9 @@ export default (props) => {
     }
     
     return(
-        <section>
+        <section className = 'loginPage'>
             <header>
+               <h3 className = 'title'>Be Your Best!</h3>
                 <h3 className = 'title'>Welcome Back!</h3>
                 <img className = 'image' src={logo} alt = "logo: decorative letter B"/>
             </header>

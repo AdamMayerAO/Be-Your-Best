@@ -55,7 +55,7 @@ const Homepage = (props) => {
     }
    
     return(
-        <div>
+        <div className = 'homepage'>
             <div
                 onClick={handleOnPressLogout}
                 style={{float: "right", margin: 20, cursor: "pointer"}}

@@ -12,8 +12,9 @@ const WelcomePage = (props) =>{
             console.log({traits})
             if(traits.length){
                 props.history.push("/home");
-            } else {
-                props.history.push("/reset")
+            } 
+            else {
+                props.history.push("/")
             }
         }));
     }, []);

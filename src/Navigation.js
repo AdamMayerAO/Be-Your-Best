@@ -35,7 +35,7 @@ export default (props)=>{
                     component = {props.component}
                 />);
             } else {
-                return (<Redirect to="/login" />);
+                return (<Redirect to="/" />);
             }
         } else {
             return (<Route 

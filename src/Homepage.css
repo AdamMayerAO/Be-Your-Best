@@ -1,3 +1,7 @@
 .todayHeader{
     text-align: center;
 }
+
+.homepage{
+    background-image: radial-gradient(white 15%, silver 34%, yellow 51%);
+}
